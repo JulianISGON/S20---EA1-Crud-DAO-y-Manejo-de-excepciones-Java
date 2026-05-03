@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'io.funcionarios'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'io.funcionarios.ui.VentanaPrincipal'
+    applicationName = 'DAO'
+}
+
+dependencies {
+    // MySQL Driver (Conector para conectar Java con MySQL)
+    // Versión 8.0.33 es compatible con MySQL Server 8.0+
+    implementation 'com.mysql:mysql-connector-j:9.3.0'
+
+    // Logging (Para ver qué está pasando en la aplicación)
+    // SLF4J es la interfaz estándar de Java para logging
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+
+    // JUnit 5 (Para pruebas unitarias)
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Configuración de Java
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+// Configuración de pruebas
+test {
+    useJUnitPlatform()
+}
+
+// Fuerza UTF-8 en compilacion para evitar textos corruptos (ej: GestiÃ³n)
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Fuerza UTF-8 al ejecutar la aplicacion con Gradle
+tasks.named('run') {
+    jvmArgs '-Dfile.encoding=UTF-8'
+}
+
+// Tarea personalizada para compilar
+tasks.named('build') {
+    doLast {
+        println "✓ Proyecto compilado exitosamente"
+    }
+}
